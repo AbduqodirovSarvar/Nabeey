@@ -1,0 +1,15 @@
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Nabeey.Service.DTOs.Books;
+
+public class BookCreationDto
+{
+	public string Title { get; set; }
+	public string Author { get; set; }
+	public string Description { get; set; }
+	public long CategoryId { get; set; }
+	public IFormFile File { get; set; }
+	public IFormFile Image { get; set; }
+	public string? Year { get; set; }
+	public string? Genre { get; set; }
+}

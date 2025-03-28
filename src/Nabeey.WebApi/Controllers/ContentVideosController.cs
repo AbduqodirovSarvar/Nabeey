@@ -1,0 +1,67 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Nabeey.Domain.Configurations;
+using Nabeey.Service.DTOs.ContentVideos;
+using Nabeey.Service.Interfaces;
+using Nabeey.Web.Models;
+
+namespace Nabeey.Web.Controllers;
+
+public class ContentVideosController : BaseController
+{
+	private readonly IContentVideoService contentVideoService;
+	public ContentVideosController(IContentVideoService contentVideoService)
+	{
+		this.contentVideoService = contentVideoService;
+	}
+
+	[HttpPost("create")]
+	public async Task<IActionResult> PostAsync(ContentVideoCreationDto dto)
+		   => Ok(new Response
+		   {
+			   StatusCode = 200,
+			   Message = "Success",
+			   Data = await this.contentVideoService.AddAsync(dto)
+		   });
+
+	[HttpDelete("delete/{id:long}")]
+	public async Task<IActionResult> DeleteAsync(long id)
+	   => Ok(new Response
+	   {
+		   StatusCode = 200,
+		   Message = "Success",
+		   Data = await this.contentVideoService.RemoveAsync(id)
+	   });
+
+	[AllowAnonymous]
+	[HttpGet("get/{id:long}")]
+	public async Task<IActionResult> GetAsync(long id)
+	  => Ok(new Response
+	  {
+		  StatusCode = 200,
+		  Message = "Success",
+		  Data = await this.contentVideoService.RetrieveByIdAsync(id)
+	  });
+
+	[AllowAnonymous]
+	[HttpGet("get-by-categoryId/{categorytId:long}")]
+	public async Task<IActionResult> GetByCategoryIdAsync(long categorytId)
+	  => Ok(new Response
+	  {
+		  StatusCode = 200,
+		  Message = "Success",
+		  Data = await this.contentVideoService.RetrieveAllByCategoryIdAsync(categorytId)
+	  });
+
+	[AllowAnonymous]
+	[HttpGet("get-all")]
+	public async ValueTask<IActionResult> GetAllAsync(
+		[FromQuery] PaginationParams @params,
+		[FromQuery] Filter filter, string search)
+	  => Ok(new Response
+	  {
+		  StatusCode = 200,
+		  Message = "Success",
+		  Data = await this.contentVideoService.RetrieveAsync(@params, filter, search)
+	  });
+}
