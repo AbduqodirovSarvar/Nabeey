@@ -47,8 +47,10 @@ public class BookService : IBookService
 			Description = dto.Description,
 			CategoryId = dto.CategoryId,
 			Author = dto.Author,
-			Category = category
-		};
+			Category = category,
+            Year = dto.Year,
+            Genre = dto.Genre
+        };
 		await this.bookRepository.InsertAsync(mappedBook);
 		await this.bookRepository.SaveAsync();
 
@@ -116,6 +118,8 @@ public class BookService : IBookService
         book.Description = dto.Description;
         book.CategoryId = dto.CategoryId;
 		book.Author = dto.Author;
+        book.Year = dto.Year;
+        book.Genre = dto.Genre;
 
         this.bookRepository.Update(book);
 		await this.bookRepository.SaveAsync();
