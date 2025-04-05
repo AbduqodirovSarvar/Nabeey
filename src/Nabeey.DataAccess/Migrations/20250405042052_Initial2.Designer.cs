@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Nabeey.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230930092221_AddCertificate")]
-    partial class AddCertificate
+    [Migration("20250405042052_Initial2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,7 +83,13 @@ namespace Nabeey.DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Link")
+                        .HasColumnType("text");
+
                     b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -154,6 +160,9 @@ namespace Nabeey.DataAccess.Migrations
                     b.Property<long>("FileId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Genre")
+                        .HasColumnType("text");
+
                     b.Property<long?>("ImageId")
                         .HasColumnType("bigint");
 
@@ -165,6 +174,9 @@ namespace Nabeey.DataAccess.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Year")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -476,6 +488,82 @@ namespace Nabeey.DataAccess.Migrations
                     b.ToTable("Quizzes");
                 });
 
+            modelBuilder.Entity("Nabeey.Domain.Entities.Quizzes.QuizResult", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<double>("Ball")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("CorrectAnswerCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("IncorrectAnswerCount")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("QuizId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("QuizResults");
+                });
+
+            modelBuilder.Entity("Nabeey.Domain.Entities.UserBookStatus.UserBookStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BookId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserBookStatuses");
+                });
+
             modelBuilder.Entity("Nabeey.Domain.Entities.Users.User", b =>
                 {
                     b.Property<long>("Id")
@@ -735,6 +823,44 @@ namespace Nabeey.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("ContentCategory");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Nabeey.Domain.Entities.Quizzes.QuizResult", b =>
+                {
+                    b.HasOne("Nabeey.Domain.Entities.Quizzes.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Nabeey.Domain.Entities.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Nabeey.Domain.Entities.UserBookStatus.UserBookStatus", b =>
+                {
+                    b.HasOne("Nabeey.Domain.Entities.Books.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Nabeey.Domain.Entities.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
 
                     b.Navigation("User");
                 });
