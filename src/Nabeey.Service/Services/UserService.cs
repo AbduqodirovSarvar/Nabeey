@@ -77,7 +77,6 @@ public class UserService : IUserService
 
 
         existUser.PasswordHash = PasswordHash.Encrypt(dto.Password);
-		existUser.UserRole = dto.UserRole;
         this.userRepository.Update(existUser);
 		await this.userRepository.SaveAsync();
 

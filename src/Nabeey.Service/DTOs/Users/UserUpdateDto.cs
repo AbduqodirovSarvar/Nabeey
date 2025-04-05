@@ -12,5 +12,4 @@ public class UserUpdateDto
 	public string Phone { get; set; }
 	public string Password { get; set; }
 	public IFormFile Image { get; set; }
-    public Role UserRole { get; set; }
 }
