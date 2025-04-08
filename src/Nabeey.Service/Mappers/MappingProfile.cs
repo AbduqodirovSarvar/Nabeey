@@ -9,6 +9,7 @@ using Nabeey.Domain.Entities.QuestionAnswers;
 using Nabeey.Domain.Entities.Questions;
 using Nabeey.Domain.Entities.QuizQuestions;
 using Nabeey.Domain.Entities.Quizzes;
+using Nabeey.Domain.Entities.UserBalls;
 using Nabeey.Domain.Entities.UserBookStatus;
 using Nabeey.Domain.Entities.Users;
 using Nabeey.Service.DTOs.Answers;
@@ -23,6 +24,7 @@ using Nabeey.Service.DTOs.QuestionAnswers;
 using Nabeey.Service.DTOs.Questions;
 using Nabeey.Service.DTOs.QuizQuestions;
 using Nabeey.Service.DTOs.Quizzes;
+using Nabeey.Service.DTOs.UserBalls;
 using Nabeey.Service.DTOs.UserBookStatus;
 using Nabeey.Service.DTOs.Users;
 using Nabeey.Web.Models;
@@ -105,5 +107,9 @@ public class MappingProfile : Profile
 		CreateMap<UserBookStatusCreationDto, UserBookStatus>().ReverseMap();
         CreateMap<UserBookStatusUpdateDto, UserBookStatus>().ReverseMap();
 
+		// UserBall
+		CreateMap<UserBall, UserBallResultDto>().ReverseMap();
+		CreateMap<UserBallCreationDto, UserBall>().ReverseMap();
+		CreateMap<UserUpdateDto, UserBall>().ReverseMap();
     }
 }

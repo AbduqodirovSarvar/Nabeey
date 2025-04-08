@@ -1,5 +1,4 @@
 ﻿using Nabeey.Domain.Configurations;
-using Nabeey.Service.DTOs.Quizzes;
 using Nabeey.Service.DTOs.UserBookStatus;
 using System;
 using System.Collections.Generic;

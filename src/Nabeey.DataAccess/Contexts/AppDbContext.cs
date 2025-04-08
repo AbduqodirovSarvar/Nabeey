@@ -11,6 +11,7 @@ using Nabeey.Domain.Entities.Certificates;
 using Nabeey.Domain.Entities.QuizQuestions;
 using Nabeey.Domain.Entities.QuestionAnswers;
 using Nabeey.Domain.Entities.UserBookStatus;
+using Nabeey.Domain.Entities.UserBalls;
 
 namespace Nabeey.DataAccess.Contexts;
 
@@ -37,6 +38,7 @@ public class AppDbContext : DbContext
 	 *
 	 */
     public DbSet<UserBookStatus> UserBookStatuses { get; set; }
+	public DbSet<UserBall> UserBalls { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -147,5 +149,19 @@ public class AppDbContext : DbContext
             .HasOne(ubs => ubs.Book)
             .WithMany()
             .HasForeignKey(ubs => ubs.BookId);
+
+		modelBuilder.Entity<UserBall>()
+			.HasOne(ub => ub.User)
+            .WithMany()
+			.HasForeignKey(ub => ub.UserId);
+
+		modelBuilder.Entity<UserBall>()
+			.HasOne(ub => ub.Book)
+            .WithMany()
+            .HasForeignKey(ub => ub.BookId);
+
+		modelBuilder.Entity<UserBall>()
+			.HasIndex(ub => new { ub.UserId, ub.BookId })
+			.IsUnique();
     }
 }
