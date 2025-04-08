@@ -32,6 +32,7 @@ public static class ServicesCollection
 		services.AddScoped<IQuestionAnswerService, QuestionAnswerService>();
 		services.AddScoped<IContentCategoryService, ContentCategoryService>();
 		services.AddScoped<IUserBookStatusService, UserBookStatusService>();
+		services.AddScoped<IUserBallService, UserBallService>();
         services.AddHttpContextAccessor();
 	}
 
